@@ -122,6 +122,7 @@ void ofApp::keyPressed(int key){
     //video playlist controller
     if (key == OF_KEY_TAB){
     video=1;
+        fingerMovie.firstFrame();
     TCP.sendToAll("1");
     
     }else if (key == OF_KEY_SHIFT){

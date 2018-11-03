@@ -44,7 +44,7 @@ void ofApp::update(){
         // we are connected - lets try to receive from the server
         string str = tcpClient.receive();
         
-        if ( str == "1"){
+        if (str == "1"){
         ofDrawBitmapString("v1", 15, 500);
         }
         
@@ -86,6 +86,7 @@ void ofApp::draw(){
     }
     
     if (msgRx == "1") {
+        fingerMovie.firstFrame();
         recivedata=1;
     }else if (msgRx == "2"){
         recivedata=2;
@@ -93,6 +94,7 @@ void ofApp::draw(){
     
     
     if (recivedata == 1) {
+        
         ofDrawBitmapString("Now playing video1", 25, 400);
          fingerMovie.draw(20,450);
     }else if (recivedata == 2) {
