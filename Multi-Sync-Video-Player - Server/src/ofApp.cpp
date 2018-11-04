@@ -21,10 +21,21 @@ void ofApp::setup(){
     
     //videoset
     ofSetVerticalSync(true);
-    fingerMovie.load("movies/fingers.mov");
-    fingerMovie.setLoopState(OF_LOOP_NORMAL);
-    fingerMovie.play();
-
+    Video1.load("movies/video1.mov");
+    Video1.setLoopState(OF_LOOP_NORMAL);
+    Video1.play();
+    
+    Video2.load("movies/video2.mov");
+    Video2.setLoopState(OF_LOOP_NORMAL);
+    Video2.play();
+    
+    Video3.load("movies/video3.mov");
+    Video3.setLoopState(OF_LOOP_NORMAL);
+    Video3.play();
+    
+    Video4.load("movies/video4.mov");
+    Video4.setLoopState(OF_LOOP_NORMAL);
+    Video4.play();
     
 }
 
@@ -44,17 +55,20 @@ void ofApp::update(){
     }
     
     //VIDEO update
-    fingerMovie.update();
+    Video1.update();
+    Video2.update();
+    Video3.update();
+    Video4.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
+
     ofSetColor(220);
-    ofDrawBitmapString("TCP SERVER Example \n\nconnect on port: "+ofToString(TCP.getPort()), 10, 20);
+    ofDrawBitmapString("Multi-Sync-Video-Player connect on port: "+ofToString(TCP.getPort()), 10, 20);
     
     ofSetColor(0);
-    ofDrawRectangle(10, 60, 400, 60);
+    ofDrawRectangle(600, 10, 400, 10);
     
     ofSetColor(220);
     
@@ -65,7 +79,7 @@ void ofApp::draw(){
         if( !TCP.isClientConnected(i) )continue;
         
         // give each client its own color
-        ofSetColor(255 - i*30, 255 - i * 20, 100 + i*40);
+    //    ofSetColor(255 - i*30, 255 - i * 20, 100 + i*40);
         
         // calculate where to draw the text
         int xPos = 15;
@@ -90,7 +104,7 @@ void ofApp::draw(){
         do{
             str = tmp;
             tmp = TCP.receive(i);
-        } while(tmp!="");
+        }while(tmp!="");
         
         
         // if there was a message set it to the corresponding client
@@ -107,27 +121,46 @@ void ofApp::draw(){
     
     //video playlist controller
     if(video==1){
-    ofDrawBitmapString("Now playing video1", 25, 400);
-    fingerMovie.draw(20,450);
+    ofDrawBitmapString("Now playing video1", 10, 60);
+    Video1.draw(0,65);
     }
     else if(video==2){
-    ofDrawBitmapString("Now playing video2", 25, 400);
+    ofDrawBitmapString("Now playing video2", 10, 60);
+    Video2.draw(0,65);
     }
-    
-    
+    else if(video==3){
+    ofDrawBitmapString("Now playing video3", 10, 60);
+    Video3.draw(0,65);
+    }
+    else if(video==4){
+    ofDrawBitmapString("Now playing video4", 10, 60);
+    Video4.draw(0,65);
+    }
 }
-
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     //video playlist controller
-    if (key == OF_KEY_TAB){
+    if (key == OF_KEY_F1){
     video=1;
-        fingerMovie.firstFrame();
+    Video1.firstFrame();
     TCP.sendToAll("1");
     
-    }else if (key == OF_KEY_SHIFT){
-    video=2;
-    TCP.sendToAll("2");
+    }else if (key == OF_KEY_F2){
+        Video2.firstFrame();
+        video=2;
+        TCP.sendToAll("2");
+    }else if (key == OF_KEY_F3){
+        Video3.firstFrame();
+        video=3;
+        TCP.sendToAll("3");
+    }else if (key == OF_KEY_F4){
+        Video4.firstFrame();
+        video=4;
+        TCP.sendToAll("4");
+    }else if (key == OF_KEY_F4){
+        Video4.firstFrame();
+        video=4;
+        TCP.sendToAll("4");
     }
 }
 
@@ -137,7 +170,6 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-    
 }
 
 //--------------------------------------------------------------

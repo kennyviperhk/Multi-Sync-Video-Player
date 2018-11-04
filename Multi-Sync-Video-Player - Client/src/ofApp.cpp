@@ -28,17 +28,32 @@ void ofApp::setup(){
     
     //videoset
     ofSetVerticalSync(true);
-    fingerMovie.load("movies/fingers.mov");
-    fingerMovie.setLoopState(OF_LOOP_NORMAL);
-    fingerMovie.play();
-
+    Video1.load("movies/video1.mov");
+    Video1.setLoopState(OF_LOOP_NORMAL);
+    Video1.play();
+    Video2.load("movies/video2.mov");
+    Video2.setLoopState(OF_LOOP_NORMAL);
+    Video2.play();
+    Video3.load("movies/video3.mov");
+    Video3.setLoopState(OF_LOOP_NORMAL);
+    Video3.play();
+    Video4.load("movies/video4.mov");
+    Video4.setLoopState(OF_LOOP_NORMAL);
+    Video4.play();
+//
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
     //VIDEO update
-    fingerMovie.update();
+    Video1.update();
+    Video2.update();
+    Video3.update();
+    Video4.update();
+    
+    
+    //
     
     if(tcpClient.isConnected()){
         // we are connected - lets try to receive from the server
@@ -70,7 +85,7 @@ void ofApp::update(){
 void ofApp::draw(){
     
     //ofSetColor(20);
-    ofDrawBitmapString("openFrameworks TCP Send Example", 15, 30);
+    ofDrawBitmapString("Multi Video Player Client", 15, 20);
     
     if(tcpClient.isConnected()){
         
@@ -78,27 +93,33 @@ void ofApp::draw(){
             ofDrawBitmapString("sending:", 15, 55);
             ofDrawBitmapString(msgTx, 85, 55);
         }else{
-            ofDrawBitmapString("status: type something to send data to port 11999", 15, 55);
+            ofDrawBitmapString("status: type something to send data to port 11999", 15, 30);
         }
-        ofDrawBitmapString("from server: \n" + msgRx, 15, 270);
+        ofDrawBitmapString("from server: " + msgRx, 15, 40);
     }else{
-        ofDrawBitmapString("status: server not found. launch server app and check ports!\n\nreconnecting in "+ofToString( (5000 - deltaTime) / 1000 )+" seconds", 15, 55);
+        ofDrawBitmapString("status: server not found. launch server app and check ports!\n\nreconnecting in "+ofToString( (5000 - deltaTime) / 1000 )+" seconds", 15, 45);
     }
-    
     if (msgRx == "1") {
-        fingerMovie.firstFrame();
+        Video1.firstFrame();
         recivedata=1;
     }else if (msgRx == "2"){
+        Video2.firstFrame();
         recivedata=2;
+    }else if (msgRx == "3"){
+        Video3.firstFrame();
+        recivedata=3;
     }
     
     
     if (recivedata == 1) {
-        
-        ofDrawBitmapString("Now playing video1", 25, 400);
-         fingerMovie.draw(20,450);
+        ofDrawBitmapString("Now playing video1", 10, 60);
+        Video1.draw(0,65);
     }else if (recivedata == 2) {
-        ofDrawBitmapString("Now playing video2", 25, 400);
+        ofDrawBitmapString("Now playing video2", 10, 60);
+        Video2.draw(0,65);
+    }else if (recivedata == 3) {
+        ofDrawBitmapString("Now playing video3", 10, 60);
+        Video3.draw(0,65);
     }
 }
 

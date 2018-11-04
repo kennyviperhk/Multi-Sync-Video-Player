@@ -35,7 +35,11 @@ public:
     
     int size;
     
-    ofVideoPlayer fingerMovie;
+    ofVideoPlayer Video1;
+    ofVideoPlayer Video2;
+    ofVideoPlayer Video3;
+    ofVideoPlayer Video4;
+    ofVideoPlayer Video5;
 };
 
 

@@ -31,7 +31,12 @@ public:
     vector <string> storeText;
     uint64_t lastSent;
     
-    ofVideoPlayer fingerMovie;
+    //VIDEO SET
+    ofVideoPlayer Video1;
+    ofVideoPlayer Video2;
+    ofVideoPlayer Video3;
+    ofVideoPlayer Video4;
+    ofVideoPlayer Video5;
 };
 
 
