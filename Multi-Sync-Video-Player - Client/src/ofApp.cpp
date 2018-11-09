@@ -1,10 +1,10 @@
 #include "ofApp.h"
 
 #define RECONNECT_TIME 400
- int recivedata = 0;
+int recivedata = 0;
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofSetBackgroundColor(230);
+    ofSetBackgroundColor(50);
     
     // our send and recieve strings
     msgTx    = "";
@@ -29,18 +29,17 @@ void ofApp::setup(){
     //videoset
     ofSetVerticalSync(true);
     Video1.load("movies/video1.mov");
-    Video1.setLoopState(OF_LOOP_NORMAL);
-    Video1.play();
+    Video1.setLoopState(OF_LOOP_NONE);
     Video2.load("movies/video2.mov");
-    Video2.setLoopState(OF_LOOP_NORMAL);
-    Video2.play();
+    Video2.setLoopState(OF_LOOP_NONE);
     Video3.load("movies/video3.mov");
-    Video3.setLoopState(OF_LOOP_NORMAL);
-    Video3.play();
+    Video3.setLoopState(OF_LOOP_NONE);
     Video4.load("movies/video4.mov");
-    Video4.setLoopState(OF_LOOP_NORMAL);
-    Video4.play();
-//
+    Video4.setLoopState(OF_LOOP_NONE);
+    
+    
+    
+    //
 }
 
 //--------------------------------------------------------------
@@ -60,10 +59,10 @@ void ofApp::update(){
         string str = tcpClient.receive();
         
         if (str == "1"){
-        ofDrawBitmapString("v1", 15, 500);
+            ofDrawBitmapString("v1", 15, 500);
         }
         
-    if( str.length() > 0 ){
+        if( str.length() > 0 ){
             msgRx = str;
         }
     }else{
@@ -85,6 +84,7 @@ void ofApp::update(){
 void ofApp::draw(){
     
     //ofSetColor(20);
+    ofSetColor(255);
     ofDrawBitmapString("Multi Video Player Client", 15, 20);
     
     if(tcpClient.isConnected()){
@@ -99,7 +99,10 @@ void ofApp::draw(){
     }else{
         ofDrawBitmapString("status: server not found. launch server app and check ports!\n\nreconnecting in "+ofToString( (5000 - deltaTime) / 1000 )+" seconds", 15, 45);
     }
-    if (msgRx == "1") {
+    
+    if (msgRx == "0"){
+        recivedata=0;
+    }else if (msgRx == "1") {
         Video1.firstFrame();
         recivedata=1;
     }else if (msgRx == "2"){
@@ -108,18 +111,36 @@ void ofApp::draw(){
     }else if (msgRx == "3"){
         Video3.firstFrame();
         recivedata=3;
+    }else if (msgRx == "4"){
+        Video4.firstFrame();
+        recivedata=4;
     }
     
-    
-    if (recivedata == 1) {
-        ofDrawBitmapString("Now playing video1", 10, 60);
-        Video1.draw(0,65);
-    }else if (recivedata == 2) {
-        ofDrawBitmapString("Now playing video2", 10, 60);
-        Video2.draw(0,65);
-    }else if (recivedata == 3) {
-        ofDrawBitmapString("Now playing video3", 10, 60);
-        Video3.draw(0,65);
+    switch (recivedata) {
+            
+        case 0:
+            ofDrawBitmapString("Server Checking", 10, 60);
+            break;
+        case 1:
+            ofDrawBitmapString("Now playing video1", 10, 60);
+            Video1.play();
+            Video1.draw(0,0);
+            break;
+        case 2:
+            ofDrawBitmapString("Now playing video2", 10, 60);
+            Video2.play();
+            Video2.draw(0,0);
+            break;
+        case 3:
+            ofDrawBitmapString("Now playing video3", 10, 60);
+            Video3.draw(0,0);
+            Video3.play();
+            break;
+        case 4:
+            ofDrawBitmapString("Now playing video4", 10, 60);
+            Video4.draw(0,0);
+            Video4.play();
+            break;
     }
 }
 
